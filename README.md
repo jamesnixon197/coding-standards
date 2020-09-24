@@ -1,13 +1,22 @@
 # Table of Contents
 
-   * [Meaningful Names](#meaningful-names)
-        * [Use Intention Revealing Names](#use-intention-revealing-names)
-        * [Avoid similar naming](#avoid-similar-naming)
-        * [Make meaningful distinctions](#make-meaningful-distinctions)
-        * [Use pronounceable names](#use-pronounceable-names)
-        * [Use searchable names](#use-searchable-names)
-        * [Object names](#object-names)
-        * [Method Names](#method-names)
+* [Meaningful Names](#meaningful-names)
+    * [Use Intention Revealing Names](#use-intention-revealing-names)
+    * [Avoid similar naming](#avoid-similar-naming)
+    * [Make meaningful distinctions](#make-meaningful-distinctions)
+    * [Use pronounceable names](#use-pronounceable-names)
+    * [Use searchable names](#use-searchable-names)
+    * [Object names](#object-names)
+    * [Method Names](#method-names)
+    * [Don't Be Cute](#dont-be-cute)
+* [Functions](#functions)
+    * [Blocks and indentation](#blocks-and-indentation)
+    * [Do one thing](#do-one-thing)
+
+
+# Credit
+
+Credit for these details, goes to the 'Clean Code: A handbook of Agile Software Craftsmanship' book.
 
 # Meaningful Names
 
@@ -24,7 +33,7 @@ for (const x: number = 0; x < diaw; x++) {
 }
 ```
 
-#### Good
+### Good
 ```
 const daysInAWeek: number = 7;
 
@@ -44,7 +53,7 @@ const getUsers: Array<User> = () => {};
 const getUser: User = () => {};
 ```
 
-#### Good
+### Good
 ```
 const getGroupOfUsers: Array<User> = () => {};
 const getSingleUser: User = () => {};
@@ -65,7 +74,7 @@ const productId2: number = 5;
 // Both var names are arbitrary and mean nothing to someone who hasn't viewed the code before
 ```
 
-#### Good
+### Good
 ```
 // Old var
 const multiListingProduct: number = 10;
@@ -88,7 +97,7 @@ class DBSrv {
 }
 ```
 
-#### Good
+### Good
 ```
 class DatabaseServer {
     private username: string;
@@ -109,7 +118,7 @@ for (const x: number = 0; x < a; x++) {
 }
 ```
 
-#### Good
+### Good
 ```
 const totalRooms: number = 3;
 
@@ -131,7 +140,7 @@ class PostAnAdvert {
 const advert: PostAnAdvert = new PostAnAdvert('New room');
 ```
 
-#### Good
+### Good
 ```
 class Advert {
     public title: string;
@@ -176,10 +185,53 @@ Don't try and be clever with the names, as it might make sense to you and other 
 
 ### Bad
 ```
-const cya : void = process.exit;
+const cya: void = process.exit;
 ```
 
 ### Good
 ```
 const killProcess: void = process.exit;
 ```
+
+# Functions
+
+## Blocks and indentation
+
+Blocks within `if`, `else` & `while` statements should be always moved into their own function, it's a nice way to keep functions small and easily understandable. This implies the function should not hold nested structures, so should only have an indentation level of 1 or 2.
+
+### Bad
+```
+const getStatusString = (status: string, advertID: number): void {
+    if (advertID) {
+        if (status === "L") {
+            return "Live";
+        } else if (status === "T") {
+            return "Expired";
+        } else {
+            return "Deleted";
+        }
+    } else {
+        throw new Error("Advert not found");
+    }
+}
+```
+
+### Good
+```
+const getStatusString = (status: string, advertID: number): void {
+    if (advertID) throw new Error("Advert not found");
+
+    return renderStatusString(status);
+}
+
+const renderStatusString = (status: char): string {
+    if (status === "L") return "Live";
+    if (status === "T") return "Expired";
+
+    return "Deleted";
+}
+```
+
+## Do one thing
+
+A function should only do a single function, hence the name function it should only have a single function.
