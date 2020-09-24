@@ -6,14 +6,14 @@
         * [Make meaningful distinctions](#make-meaningful-distinctions)
         * [Use pronounceable names](#use-pronounceable-names)
         * [Use searchable names](#use-searchable-names)
-        * [Avoid adding type information](#avoid-adding-type-information)
         * [Object names](#object-names)
+        * [Method Names](#method-names)
 
 # Meaningful Names
 
 ## Use Intention Revealing Names
 
-The name of a variable, function, or class, should reveal the intent. If it doesn't it can quickly lead to confusion and disinformation if it's not immediately obvious what the abbreviation stands for.
+The name of a variable, function, or class, should reveal the intent. If it doesn't it can quickly lead to confusion and disinformation if it's not immediately obvious what the name means.
 
 ### Bad
 ```
@@ -98,7 +98,7 @@ class DatabaseServer {
 
 ## Use searchable names
 
-Use names which can easily be grepped for in the code. Avoid using single letter names which can bring up many results. Remember `e` is the most used letter in the English alphabet.
+Use names which can easily be grepped for in the code. Avoid using single letter names which can bring up many results. For example, `e` is the most used letter in the English alphabet so wouldn't be good name.
 
 ### Bad
 ```
@@ -118,27 +118,9 @@ for (const roomIndex: number = 0; roomIndex < totalRooms; roomIndex++) {
 }
 ```
 
-## Avoid adding type information
-
-Avoid adding encoding type or scope info into names as it can just add an extra burden to a developer trying to decipher the name, especially when even the encoding type isn't clearly obvious in a name, an example of this art form is [Hungarian Notation](https://en.wikipedia.org/wiki/Hungarian_notation). This isn't a massive issue for strongly typed languages as the type is next to the name in most cases.
-
-### Bad
-```
-class Property {
-    public roomArr: Array<Room>;
-}
-```
-
-#### Good
-```
-class Property {
-    public rooms: Array<Room>;
-}
-```
-
 ## Object names
 
-Always use a noun when naming objects or classes, as the point of an object / class is to be a 'thing' or else in certain contexts the object or class won't make any sense (like below).
+Use nouns when naming objects or classes, as the point of an object / class is to be a 'thing' or else in certain contexts the object or class won't make any sense (like below).
 
 ### Bad
 ```
@@ -158,3 +140,46 @@ class Advert {
 const advert: Advert = new Advert('New room');
 ```
 
+## Method Names
+
+When naming a method inside an object / class, you should choose a verb which describes what the method is doing, as a method is a function which does a 'thing'. A good standard is the JavaBean standard where accessors, mutators and predicates should be prefixed with `get`, `set` and `is`.
+
+### Bad
+```
+const advert = new Advert;
+
+advert.title("Advert title")
+
+const advertTitle = advert.retrievedTitle();
+
+if (advert.posted()) {
+    # Posted
+}
+```
+
+### Good
+```
+const advert = new Advert;
+
+advert.setTitle("Advert title")
+
+const advertTitle = advert.getTitle();
+
+if (advert.isPosted()) {
+    # Posted
+}
+```
+
+## Don't Be Cute
+
+Don't try and be clever with the names, as it might make sense to you and other people who get the joke but anyone new may struggle to understand what the name means.
+
+### Bad
+```
+const cya : void = process.exit;
+```
+
+### Good
+```
+const killProcess: void = process.exit;
+```
